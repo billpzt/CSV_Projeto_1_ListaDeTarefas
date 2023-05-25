@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 export default function TaskCard(props) {
+    const [id, setId] = useState(props.id);
+
     return (
         <div style={styles.card}>
             <input type="checkbox" name="checkbox"></input>
