@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 export default function ListaTarefas() {
 
   const [listaTarefas, setListaTarefas] = useState([]);
+  const [tarefaTexto, setTarefaTexto] = useState('');
   const [tarefa, setTarefa] = useState({id: '', texto: ''});
 
   const inserirTarefaHandler = (tarefa) => {
@@ -14,7 +15,7 @@ export default function ListaTarefas() {
   };
 
   const handleChange = (event) => {
-    setTarefa({id: uuidv4(), texto: event.target.value});
+    setTarefaTexto(event.target.value);
   };
 
   const handleRemoverTarefa = (value) => {
@@ -22,11 +23,26 @@ export default function ListaTarefas() {
     setListaTarefas(novaListaTarefas);
   };
 
+  const handleRemoverMarcadas = () => {
+    const novaListaTarefasMarcadas = listaTarefas.filter(
+      tarefa => tarefa.checked = false
+    )
+    setListaTarefas(novaListaTarefasMarcadas);
+  }
+
+  const marcarTodas = () => {
+    var checkboxes = document.getElementsByName('checkbox');
+    var checkboxesArray = Array.from(checkboxes);
+    checkboxesArray.map((item) => {
+      return item.checked = true;
+    })
+  }
+
   return (
     <div>
       <h1>Lista de Tarefas</h1>
-      <input type="text" onChange={handleChange} value={tarefa.texto} style={styles.input}/>
-      <button onClick={() => inserirTarefaHandler(tarefa)} style={styles.button}>
+      <input type="text" onChange={handleChange} value={tarefaTexto} style={styles.input}/>
+      <button onClick={() => inserirTarefaHandler({id: uuidv4(), texto: tarefaTexto})} style={styles.button}>
         Inserir Tarefa
       </button>
       <ul>
@@ -42,6 +58,10 @@ export default function ListaTarefas() {
           );
         })}
       </ul>
+      <div>
+        <button onClick={() => handleRemoverMarcadas()}>Excluir tarefas marcadas</button>
+        <button onClick={() => {marcarTodas()}}>Marcar todas</button>
+      </div>
     </div>
   );
 }
