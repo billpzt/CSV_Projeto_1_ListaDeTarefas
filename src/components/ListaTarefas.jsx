@@ -10,7 +10,8 @@ export default function ListaTarefas() {
   const [tarefa, setTarefa] = useState({id: '', texto: ''});
 
   const inserirTarefaHandler = (tarefa) => {
-    setListaTarefas([...listaTarefas, tarefa]);
+    const novaTarefa = {...tarefa};
+    setListaTarefas([...listaTarefas, novaTarefa]);
     console.log(listaTarefas);
   };
 
@@ -24,11 +25,11 @@ export default function ListaTarefas() {
   };
 
   const handleRemoverMarcadas = () => {
-    const novaListaTarefasMarcadas = listaTarefas.filter(
-      tarefa => tarefa.checked = false
-    )
-    setListaTarefas(novaListaTarefasMarcadas);
-  }
+    var novaListaTarefas = listaTarefas.filter(
+      tarefa => !tarefa.checked
+    );
+    setListaTarefas(novaListaTarefas);
+  };
 
   const marcarTodas = () => {
     var checkboxes = document.getElementsByName('checkbox');
@@ -45,6 +46,10 @@ export default function ListaTarefas() {
       <button onClick={() => inserirTarefaHandler({id: uuidv4(), texto: tarefaTexto})} style={styles.button}>
         Inserir Tarefa
       </button>
+      <div>
+        <button onClick={() => handleRemoverMarcadas()}>Excluir tarefas marcadas</button>
+        <button onClick={() => {marcarTodas()}}>Marcar todas</button>
+      </div>
       <ul>
         {listaTarefas.map((tarefa) => {
           return (
@@ -58,10 +63,6 @@ export default function ListaTarefas() {
           );
         })}
       </ul>
-      <div>
-        <button onClick={() => handleRemoverMarcadas()}>Excluir tarefas marcadas</button>
-        <button onClick={() => {marcarTodas()}}>Marcar todas</button>
-      </div>
     </div>
   );
 }
